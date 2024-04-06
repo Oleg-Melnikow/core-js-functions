@@ -18,7 +18,7 @@
  *
  */
 function getCurrentFunctionName() {
-  return 'getCurrentFunctionName';
+  return getCurrentFunctionName.name;
 }
 
 /**
@@ -105,8 +105,16 @@ function getPolynom() {
  *   ...
  *   memoizer() => the same random number  (next run, returns the previous cached result)
  */
-function memoize(/* func */) {
-  throw new Error('Not implemented');
+function memoize(func) {
+  const cache = new Map();
+  return (...args) => {
+    const [first] = args;
+    if (cache.has(first)) {
+      return cache.get(first);
+    }
+    cache.set(first, func(first));
+    return cache.get(first);
+  };
 }
 
 /**
@@ -189,8 +197,12 @@ function partialUsingArguments(fn, ...args1) {
  *   getId4() => 7
  *   getId10() => 11
  */
-function getIdGeneratorFunction(/* startFrom */) {
-  throw new Error('Not implemented');
+function getIdGeneratorFunction(startFrom) {
+  let id = startFrom;
+  return () => {
+    id += 1;
+    return id - 1;
+  };
 }
 
 module.exports = {
